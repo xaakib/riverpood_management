@@ -23,4 +23,8 @@ class TodoList extends StateNotifier<List<Todo>> {
           todo
     ];
   }
+
+  void removeTodo(String id) {
+    state = state.where((todo) => todo.id != id).toList();
+  }
 }
