@@ -4,6 +4,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
 import 'package:riverpood_management/notifier/todos_notifiers.dart';
 
+import 'models/todo.dart';
+
 void main() {
   runApp(ProviderScope(child: MyApp()));
 }
@@ -23,6 +25,35 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends HookWidget {
+  Future<dynamic> showEditDialog(BuildContext ctx, Todo todoListItem) {
+    return showDialog(
+        context: ctx,
+        builder: (context) {
+          final editTextController =
+              TextEditingController(text: todoListItem.description);
+          return AlertDialog(
+            content: TextField(
+              controller: editTextController,
+            ),
+            actions: [
+              // ignore: deprecated_member_use
+              FlatButton(
+                  child: Text("Cancel"),
+                  onPressed: () => Navigator.of(context).pop()),
+              // ignore: deprecated_member_use
+              FlatButton(
+                  child: Text("save"),
+                  onPressed: () {
+                    context.read(todoListProvider).editTodo(
+                        id: todoListItem.id,
+                        description: editTextController.text);
+                    Navigator.of(context).pop();
+                  }),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     final descriptionController = useTextEditingController();
@@ -53,14 +84,16 @@ class MyHomePage extends HookWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
-                                icon: Icon(Icons.edit), onPressed: () {}),
+                              icon: Icon(Icons.edit),
+                              onPressed: () =>
+                                  showEditDialog(context, todoListItem),
+                            ),
                             IconButton(
-                                icon: Icon(Icons.delete),
-                                onPressed: () {
-                                  context
-                                      .read(todoListProvider)
-                                      .removeTodo(todoListItem.id);
-                                }),
+                              icon: Icon(Icons.delete),
+                              onPressed: () => context
+                                  .read(todoListProvider)
+                                  .removeTodo(todoListItem.id),
+                            ),
                           ],
                         ),
                       ),
