@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 // ignore: deprecated_member_use
 import 'package:hooks_riverpod/all.dart';
+import 'package:riverpood_management/notifier/todos_notifiers.dart';
 
 void main() {
   runApp(ProviderScope(child: MyApp()));
@@ -48,7 +49,9 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => context
+            .read(todoListProvider)
+            .addTodo(description: descriptionController.text),
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
