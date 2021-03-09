@@ -49,6 +49,20 @@ class MyHomePage extends HookWidget {
                     return Card(
                       child: ListTile(
                         title: Text("${todoListItem.description}"),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                                icon: Icon(Icons.edit), onPressed: () {}),
+                            IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {
+                                  context
+                                      .read(todoListProvider)
+                                      .removeTodo(todoListItem.id);
+                                }),
+                          ],
+                        ),
                       ),
                     );
                   }),
@@ -57,9 +71,12 @@ class MyHomePage extends HookWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context
-            .read(todoListProvider)
-            .addTodo(description: descriptionController.text),
+        onPressed: () {
+          context
+              .read(todoListProvider)
+              .addTodo(description: descriptionController.text);
+          descriptionController.clear();
+        },
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
