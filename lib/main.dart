@@ -35,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final descriptionController = useTextEditingController();
+    final todoList = useProvider(todoListProvider.state);
 
     return Scaffold(
       appBar: AppBar(
@@ -46,6 +47,15 @@ class _MyHomePageState extends State<MyHomePage> {
           TextField(
             controller: descriptionController,
           ),
+          ListView.builder(
+              itemCount: todoList.length,
+              itemBuilder: (BuildContext context, int index) {
+                final todoListItem = todoList[index];
+
+                return ListTile(
+                  title: Text("${todoListItem.description}"),
+                );
+              }),
         ],
       ),
       floatingActionButton: FloatingActionButton(
