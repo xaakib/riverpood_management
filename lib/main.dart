@@ -17,21 +17,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final descriptionController = useTextEditingController();
@@ -39,24 +30,31 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("TodoApp"),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          TextField(
-            controller: descriptionController,
-          ),
-          ListView.builder(
-              itemCount: todoList.length,
-              itemBuilder: (BuildContext context, int index) {
-                final todoListItem = todoList[index];
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            TextField(
+              controller: descriptionController,
+            ),
+            Expanded(
+              child: ListView.builder(
+                  itemCount: todoList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final todoListItem = todoList[index];
 
-                return ListTile(
-                  title: Text("${todoListItem.description}"),
-                );
-              }),
-        ],
+                    return Card(
+                      child: ListTile(
+                        title: Text("${todoListItem.description}"),
+                      ),
+                    );
+                  }),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context
