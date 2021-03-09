@@ -1,6 +1,8 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpood_management/models/todo.dart';
 
+final todoListProvider = StateNotifierProvider((ref) => TodoList());
+
 class TodoList extends StateNotifier<List<Todo>> {
   TodoList([List<Todo> initialTodos]) : super(initialTodos ?? []);
 
